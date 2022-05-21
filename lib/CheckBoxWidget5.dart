@@ -1,20 +1,34 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'main.dart';
+
+var items = [];
+Map<String, bool> items2 = {};
+
+bool dropdownflag = false;
 
 class CheckBox5 extends StatefulWidget {
   const CheckBox5();
 
   @override
-  State<StatefulWidget> createState() => _MyWidgetState();
+  State<StatefulWidget> createState() {
+    if (dropdownflag == false) {
+      for (int i = 0; i < anask!.length; i++) {
+        String value = anask![i].toString();
+        items.add(
+          value.replaceAll('[', '').replaceAll(']', '').replaceAll('  ', ''),
+        );
+        items2["value$i"] = false;
+      }
+      dropdownflag = true;
+    }
+    return _MyWidgetState();
+  }
 }
 
 class _MyWidgetState extends State<CheckBox5> {
-  bool eskafeas = false;
-  bool kasmas = false;
-  bool skalidi = false;
-  bool mystri = false;
-  bool odont = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,80 +44,29 @@ class _MyWidgetState extends State<CheckBox5> {
       return Colors.green;
     }
 
-    return Column(children: [
-      Text("Εσκαφέας",
-          style: TextStyle(
-              color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 18)),
-      Checkbox(
-        checkColor: Colors.white,
-        fillColor: MaterialStateProperty.resolveWith(getColor),
-        value: eskafeas,
-        onChanged: (bool? value) {
-          setState(() {
-            eskafeas = value!;
-          });
-        },
-      ),
-      Text(
-        "Κασμάς",
-        style: TextStyle(
-            color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 18),
-      ),
-      Checkbox(
-        checkColor: Colors.white,
-        fillColor: MaterialStateProperty.resolveWith(getColor),
-        value: kasmas,
-        onChanged: (bool? value) {
-          setState(() {
-            kasmas = value!;
-          });
-        },
-      ),
-      Text(
-        "Σκαλίδι",
-        style: TextStyle(
-            color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 18),
-      ),
-      Checkbox(
-        checkColor: Colors.white,
-        fillColor: MaterialStateProperty.resolveWith(getColor),
-        value: skalidi,
-        onChanged: (bool? value) {
-          setState(() {
-            skalidi = value!;
-          });
-        },
-      ),
-      Text(
-        "πλινθοπερίκλειστη",
-        style: TextStyle(
-            color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 18),
-      ),
-      Checkbox(
-        checkColor: Colors.white,
-        fillColor: MaterialStateProperty.resolveWith(getColor),
-        value: mystri,
-        onChanged: (bool? value) {
-          setState(() {
-            mystri = value!;
-          });
-        },
-      ),
-      Text(
-        "Οδοντ. εργαλείο",
-        style: TextStyle(
-            color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 18),
-      ),
-      Checkbox(
-        checkColor: Colors.white,
-        fillColor: MaterialStateProperty.resolveWith(getColor),
-        value: odont,
-        onChanged: (bool? value) {
-          setState(() {
-            odont = value!;
-          });
-        },
-      ),
-    ]);
+    return Container(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        for (int i = 0; i < items.length; i++)
+          Column(children: [
+            Text(
+              items[i],
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
+            ),
+            Checkbox(
+              checkColor: Colors.white,
+              fillColor: MaterialStateProperty.resolveWith(getColor),
+              value: (items2["value$i"]),
+              onChanged: (bool? value) {
+                setState(() {
+                  items2["value$i"] = value!;
+                });
+              },
+            ),
+          ]),
+      ]),
+    );
   }
 }

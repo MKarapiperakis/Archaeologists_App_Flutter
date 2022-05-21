@@ -1,20 +1,33 @@
+// ignore_for_file: no_logic_in_create_state, prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'main.dart';
+
+var items = [];
+Map<String, bool> items2 = {};
+
+bool dropdownflag = false;
 
 class CheckBox extends StatefulWidget {
   const CheckBox();
 
   @override
-  State<StatefulWidget> createState() => _MyWidgetState();
+  State<StatefulWidget> createState() {
+    if (dropdownflag == false) {
+      for (int i = 0; i < material!.length; i++) {
+        String value = material![i].toString();
+        items.add(
+          value.replaceAll('[', '').replaceAll(']', '').replaceAll('  ', ''),
+        );
+        items2["value$i"] = false;
+      }
+      dropdownflag = true;
+    }
+    return _MyWidgetState();
+  }
 }
 
 class _MyWidgetState extends State<CheckBox> {
-  bool arg = false;
-  bool ilys = false;
-  bool ammos = false;
-  bool xaliki = false;
-  bool petroules = false;
-  bool lithoi = false;
-
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -29,101 +42,29 @@ class _MyWidgetState extends State<CheckBox> {
       return Colors.green;
     }
 
-    return Column(children: [
-      Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center, //Center Row contents horizontally,
-          children: [
-            Text("Άργιλος",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18)),
-            Checkbox(
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: arg,
-              onChanged: (bool? value) {
-                setState(() {
-                  arg = value!;
-                });
-              },
-            ),
+    return Container(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        for (int i = 0; i < items.length; i++)
+          Column(children: [
             Text(
-              "Ιλύς",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
+              items[i],
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
             ),
             Checkbox(
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: ilys,
+              value: (items2["value$i"]),
               onChanged: (bool? value) {
                 setState(() {
-                  ilys = value!;
+                  items2["value$i"] = value!;
                 });
               },
             ),
-            Text(
-              "Άμμος",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-            ),
-            Checkbox(
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: ammos,
-              onChanged: (bool? value) {
-                setState(() {
-                  ammos = value!;
-                });
-              },
-            )
           ]),
-      Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center, //Center Row contents horizontally,
-        children: [
-          Text(
-            "Χαλίκι",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: xaliki,
-            onChanged: (bool? value) {
-              setState(() {
-                xaliki = value!;
-              });
-            },
-          ),
-          Text(
-            "Πετρούλες",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: petroules,
-            onChanged: (bool? value) {
-              setState(() {
-                petroules = value!;
-              });
-            },
-          ),
-          Text(
-            "Λίθοι",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: lithoi,
-            onChanged: (bool? value) {
-              setState(() {
-                lithoi = value!;
-              });
-            },
-          )
-        ],
-      )
-    ]);
+      ]),
+    );
   }
 }

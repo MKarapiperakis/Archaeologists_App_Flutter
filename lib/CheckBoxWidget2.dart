@@ -1,26 +1,34 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'main.dart';
+
+var items = [];
+Map<String, bool> items2 = {};
+
+bool dropdownflag = false;
 
 class CheckBox2 extends StatefulWidget {
   const CheckBox2();
 
   @override
-  State<StatefulWidget> createState() => _MyWidgetState();
+  State<StatefulWidget> createState() {
+    if (dropdownflag == false) {
+      for (int i = 0; i < prosm!.length; i++) {
+        String value = prosm![i].toString();
+        items.add(
+          value.replaceAll('[', '').replaceAll(']', '').replaceAll('  ', ''),
+        );
+        items2["value$i"] = false;
+      }
+      dropdownflag = true;
+    }
+    return _MyWidgetState();
+  }
 }
 
 class _MyWidgetState extends State<CheckBox2> {
-  bool staxth = false;
-  bool karbouno = false;
-  bool lithoi = false;
-  bool koniama = false;
-  bool keramidia = false;
-  bool gyali = false;
-  bool metala = false;
-  bool skwries = false;
-  bool osta = false;
-  bool ostrea = false;
-  bool alla = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,184 +44,29 @@ class _MyWidgetState extends State<CheckBox2> {
       return Colors.green;
     }
 
-    return Column(children: [
-      Row(
-          mainAxisAlignment:
-              MainAxisAlignment.center, //Center Row contents horizontally,
-          children: [
-            Text("Στάχτη",
-                style:
-                    TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18)),
-            Checkbox(
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: staxth,
-              onChanged: (bool? value) {
-                setState(() {
-                  staxth = value!;
-                });
-              },
-            ),
+    return Container(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        for (int i = 0; i < items.length; i++)
+          Column(children: [
             Text(
-              "Κάρβουνο",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
+              items[i],
+              style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18),
             ),
             Checkbox(
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: karbouno,
+              value: (items2["value$i"]),
               onChanged: (bool? value) {
                 setState(() {
-                  karbouno = value!;
+                  items2["value$i"] = value!;
                 });
               },
             ),
-            Text(
-              "Λίθοι",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-            ),
-            Checkbox(
-              checkColor: Colors.white,
-              fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: lithoi,
-              onChanged: (bool? value) {
-                setState(() {
-                  lithoi = value!;
-                });
-              },
-            )
           ]),
-      Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center, //Center Row contents horizontally,
-        children: [
-          Text(
-            "Κονίαμα",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: koniama,
-            onChanged: (bool? value) {
-              setState(() {
-                koniama = value!;
-              });
-            },
-          ),
-          Text(
-            "Κεραμίδια",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: keramidia,
-            onChanged: (bool? value) {
-              setState(() {
-                keramidia = value!;
-              });
-            },
-          ),
-          Text(
-            "Γυαλί",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: gyali,
-            onChanged: (bool? value) {
-              setState(() {
-                gyali = value!;
-              });
-            },
-          )
-        ],
-      ),
-      Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center, //Center Row contents horizontally,
-        children: [
-          Text(
-            "Μέταλλα",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: metala,
-            onChanged: (bool? value) {
-              setState(() {
-                metala = value!;
-              });
-            },
-          ),
-          Text(
-            "Σκωρίες",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: skwries,
-            onChanged: (bool? value) {
-              setState(() {
-                skwries = value!;
-              });
-            },
-          ),
-          Text(
-            "Οστά",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: osta,
-            onChanged: (bool? value) {
-              setState(() {
-                osta = value!;
-              });
-            },
-          )
-        ],
-      ),
-       Row(
-        mainAxisAlignment:
-            MainAxisAlignment.center, //Center Row contents horizontally,
-        children: [
-          Text(
-            "Όστρεα",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: ostrea,
-            onChanged: (bool? value) {
-              setState(() {
-                ostrea = value!;
-              });
-            },
-          ),
-          Text(
-            "Άλλα",
-            style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w500,fontSize: 18),
-          ),
-          Checkbox(
-            checkColor: Colors.white,
-            fillColor: MaterialStateProperty.resolveWith(getColor),
-            value: alla,
-            onChanged: (bool? value) {
-              setState(() {
-                alla = value!;
-              });
-            },
-          ),
-          
-        ],
-      )
-    ]);
+      ]),
+    );
   }
 }

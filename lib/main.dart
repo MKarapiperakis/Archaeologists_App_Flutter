@@ -33,8 +33,81 @@ import 'DropDownWidget16.dart';
 import 'DropDownWidget17.dart';
 import 'DropDownWidget18.dart';
 import 'FloatingActionButtonWidget.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'package:postgres/postgres.dart';
 
-void main() => runApp(const MyApp());
+List<List<dynamic>>? SMType;
+List<List<dynamic>>? Direction;
+List<List<dynamic>>? Category;
+List<List<dynamic>>? Structure;
+List<List<dynamic>>? Color1;
+List<List<dynamic>>? Synthetic;
+List<List<dynamic>>? Coating_material;
+List<List<dynamic>>? Coating_color;
+List<List<dynamic>>? Floor;
+List<List<dynamic>>? Place;
+List<List<dynamic>>? Datingfrom;
+List<List<dynamic>>? Datingto;
+List<List<dynamic>>? Conditions;
+List<List<dynamic>>? Mixingpossib;
+List<List<dynamic>>? BurialType;
+List<List<dynamic>>? TombType;
+List<List<dynamic>>? Bones;
+List<List<dynamic>>? Burial;
+
+//-------------------------------- CHECKBOX -------------------------------------------\\
+List<List<dynamic>>? material;
+List<List<dynamic>>? prosm;
+List<List<dynamic>>? toixop;
+List<List<dynamic>>? basei;
+List<List<dynamic>>? anask;
+void main() async {
+  final conn = PostgreSQLConnection(
+      'hilon.dit.uop.gr', //host
+      5432, //port
+      'db3u04', //database name
+      username: '',		//username here
+      password: '');	//password here
+
+  await conn.open();
+  print(
+      'Connection with the Postgres database was successful!'); //For debugging
+
+  SMType = await conn.query("SELECT selections FROM ΤύποςΣΜ");
+  Direction = await conn.query("SELECT selections FROM \"Κλίση προς\"");
+  Category = await conn.query("SELECT selections FROM \"Κατηγορία/τύπος\"");
+  Structure = await conn.query("SELECT selections FROM \"Δομή/Υφή\"");
+  Color1 = await conn.query("SELECT selections FROM Χρώμα");
+  Synthetic = await conn.query("SELECT selections FROM \"Συνδετικό υλικό\"");
+  Coating_material =
+      await conn.query("SELECT selections FROM \"Επίχρισμα(είδος)\"");
+  Coating_color =
+      await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\"");
+  Floor = await conn.query("SELECT selections FROM Δάπεδο");
+  Place = await conn.query("SELECT selections FROM Θέση");
+  Datingfrom = await conn.query("SELECT selections FROM \"Χρονολόγηση απο\"");
+  Datingto = await conn.query("SELECT selections FROM \"Χρονολόγηση μέχρι\"");
+  Conditions = await conn.query("SELECT selections FROM Συνθήκες");
+  Mixingpossib =
+      await conn.query("SELECT selections FROM \"Πιθανότητα επιμίξεων\"");
+  BurialType = await conn.query("SELECT selections FROM \"Τύπος Ταφής\"");
+  TombType = await conn.query("SELECT selections FROM \"Τύπος τάφου\"");
+  Bones = await conn.query("SELECT selections FROM Οστά");
+  Burial = await conn.query("SELECT selections FROM Ταφή");
+
+  //-------------------------------- CHECKBOX -------------------------------------------\\
+
+  material = await conn.query("SELECT selections FROM Υλικό");
+  prosm = await conn.query("SELECT selections FROM Προσμίξεις");
+  toixop = await conn.query("SELECT selections FROM Τοιχοποία");
+  basei = await conn.query("SELECT selections FROM Βάσει");
+  anask = await conn.query("SELECT selections FROM \"Ανασκαφ. τεχνική\"  ");
+
+  runApp(const MyApp());
+
+  await conn.open();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -325,7 +398,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     SingleChildScrollView(
         //------------------------- SKELETOS -------------------------
         child: Column(children: [
-          Container(key: itemTop2, child: TextWidget("Δελτίο Σκελετού", 0)),
+      Container(key: itemTop2, child: TextWidget("Δελτίο Σκελετού", 0)),
       Container(
         key: itemkey9,
         child: InputText("Έτος", 2, 0),
@@ -394,174 +467,172 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          PopupMenuButton(
-              // icon: Icon(Icons.book)
+          actions: [
+            PopupMenuButton(
+                // icon: Icon(Icons.book)
 
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20.0),
+                  ),
                 ),
-              ),
-              itemBuilder: (context) {
-                if (_selectedIndex == 0) {
-                  return [
-                    PopupMenuItem<int>(
-                      value: 0,
-                      child: Text(
-                        "Τύπος Στρ. Μονάδας",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w400),
+                itemBuilder: (context) {
+                  if (_selectedIndex == 0) {
+                    return [
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Text(
+                          "Τύπος Στρ. Μονάδας",
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.blue,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 1,
-                      child: Text("Συντεταγμένες",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 2,
-                      child: Text("Διαστάσεις",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 3,
-                      child: Text("Κατηγορία/τύπος",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 4,
-                      child: Text("Προσμίξεις",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 5,
-                      child: Text("Υλικά Κατασκευής",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 6,
-                      child: Text("Χρονολόγηση",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 7,
-                      child: Text("Ανασκαφ. τεχνική",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                  ];
-                } else {
-                  return [
-                    PopupMenuItem<int>(
-                      value: 0,
-                      child: Text("Έτος",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 1,
-                      child: Text("Συντεταγμένες",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 2,
-                      child: Text("Διαστάσεις",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    PopupMenuItem<int>(
-                      value: 3,
-                      child: Text("Ανατομία",
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w400)),
-                    ),
-                  ];
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text("Συντεταγμένες",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 2,
+                        child: Text("Διαστάσεις",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 3,
+                        child: Text("Κατηγορία/τύπος",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 4,
+                        child: Text("Προσμίξεις",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 5,
+                        child: Text("Υλικά Κατασκευής",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 6,
+                        child: Text("Χρονολόγηση",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 7,
+                        child: Text("Ανασκαφ. τεχνική",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ];
+                  } else {
+                    return [
+                      PopupMenuItem<int>(
+                        value: 0,
+                        child: Text("Έτος",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text("Συντεταγμένες",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 2,
+                        child: Text("Διαστάσεις",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                      PopupMenuItem<int>(
+                        value: 3,
+                        child: Text("Ανατομία",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.blue,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ];
+                  }
+                },
+                onSelected: (value) {
+                  // value for drop down id and _selectedIndex = 0: SM, 1: Skeletos
+                  if (value == 0 && _selectedIndex == 0) {
+                    scrollToItem();
+                  } else if (value == 1 && _selectedIndex == 0) {
+                    scrollToItem2();
+                  } else if (value == 2 && _selectedIndex == 0) {
+                    scrollToItem3();
+                  } else if (value == 3 && _selectedIndex == 0) {
+                    scrollToItem4();
+                  } else if (value == 4 && _selectedIndex == 0) {
+                    scrollToItem5();
+                  } else if (value == 5 && _selectedIndex == 0) {
+                    scrollToItem6();
+                  } else if (value == 6 && _selectedIndex == 0) {
+                    scrollToItem7();
+                  } else if (value == 7 && _selectedIndex == 0) {
+                    scrollToItem8();
+                  } else if (value == 0 && _selectedIndex == 1) {
+                    scrollToItem9();
+                  } else if (value == 1 && _selectedIndex == 1) {
+                    scrollToItem10();
+                  } else if (value == 2 && _selectedIndex == 1) {
+                    scrollToItem11();
+                  } else if (value == 3 && _selectedIndex == 1) {
+                    scrollToItem12();
+                  }
+                }),
+          ],
+          title: Row(children: [
+            TextButton.icon(
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+              ),
+
+              onPressed: () {
+                if (_selectedIndex == 0) {
+                  scrollToTop1();
+                } else if (_selectedIndex == 1) {
+                  scrollToTop2();
                 }
               },
-              onSelected: (value) {
-                // value for drop down id and _selectedIndex = 0: SM, 1: Skeletos
-                if (value == 0 && _selectedIndex == 0) {
-                  scrollToItem();
-                } else if (value == 1 && _selectedIndex == 0) {
-                  scrollToItem2();
-                } else if (value == 2 && _selectedIndex == 0) {
-                  scrollToItem3();
-                } else if (value == 3 && _selectedIndex == 0) {
-                  scrollToItem4();
-                } else if (value == 4 && _selectedIndex == 0) {
-                  scrollToItem5();
-                } else if (value == 5 && _selectedIndex == 0) {
-                  scrollToItem6();
-                } else if (value == 6 && _selectedIndex == 0) {
-                  scrollToItem7();
-                } else if (value == 7 && _selectedIndex == 0) {
-                  scrollToItem8();
-                } else if (value == 0 && _selectedIndex == 1) {
-                  scrollToItem9();
-                } else if (value == 1 && _selectedIndex == 1) {
-                  scrollToItem10();
-                } else if (value == 2 && _selectedIndex == 1) {
-                  scrollToItem11();
-                } else if (value == 3 && _selectedIndex == 1) {
-                  scrollToItem12();
-                }
-              }),
-        ],
-        title: Row(children: [
-          TextButton.icon(
-            style: TextButton.styleFrom(
-              primary: Colors.white,
+              icon: Icon(Icons.assured_workload_rounded),
+
+              label: Text(''), // <-- Text
             ),
-
-            onPressed: () {
-              if(_selectedIndex == 0) {
-                scrollToTop1();
-              } else if(_selectedIndex == 1) {
-                scrollToTop2();
-              }
-
-            },
-            icon: Icon(Icons.assured_workload_rounded),
-
-            label: Text(''), // <-- Text
-          ),
-          Text('Εφαρμογή Αρχαιολόγων'),
-        ]),
-        backgroundColor: Colors.greenAccent[400],
-        centerTitle: false
-      ),
+            Text('Εφαρμογή Αρχαιολόγων'),
+          ]),
+          backgroundColor: Colors.greenAccent[400],
+          centerTitle: false),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
