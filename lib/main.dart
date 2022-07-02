@@ -1,5 +1,9 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names
 
+import 'dart:async';
+import 'dart:ffi';
+
+import 'package:application/DateSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'TextWidget.dart';
 import 'InputTextWidget.dart';
@@ -36,6 +40,8 @@ import 'FloatingActionButtonWidget.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:postgres/postgres.dart';
+import 'CheckBoxWidget6.dart';
+import 'FloatingActionButton2Widget.dart';
 
 List<List<dynamic>>? SMType;
 List<List<dynamic>>? Direction;
@@ -55,6 +61,7 @@ List<List<dynamic>>? BurialType;
 List<List<dynamic>>? TombType;
 List<List<dynamic>>? Bones;
 List<List<dynamic>>? Burial;
+List<List<dynamic>>? Stone;
 
 //-------------------------------- CHECKBOX -------------------------------------------\\
 List<List<dynamic>>? material;
@@ -62,17 +69,43 @@ List<List<dynamic>>? prosm;
 List<List<dynamic>>? toixop;
 List<List<dynamic>>? basei;
 List<List<dynamic>>? anask;
+
+/*
+Timer? timer1;
+Timer? timer2;
+
+@override
+void initState() {
+  initState();
+  timer1 = Timer.periodic(Duration(seconds: 10), (Timer t1) async => Synthetic = await conn.query("SELECT selections FROM \"Συνδετικό υλικό\""));
+  timer2 = Timer.periodic(Duration(seconds: 10), (Timer t2) async => Coating_color = await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\""));
+}
+
+@override
+void dispose() {
+  timer1?.cancel();
+  timer2?.cancel();
+  dispose();
+}
+*/
+
+
+
+
 void main() async {
   final conn = PostgreSQLConnection(
       'hilon.dit.uop.gr', //host
       5432, //port
       'db3u04', //database name
-      username: '',		//username here
-      password: '');	//password here
+      username: 'db3u04',
+      password: 'FmAF7P2A');
 
-  await conn.open();
-  print(
-      'Connection with the Postgres database was successful!'); //For debugging
+  if (conn.isClosed)
+  {
+    await conn.open();
+  };
+  print('Connection with the Postgres database was successful!'); //For debugging
+
 
   SMType = await conn.query("SELECT selections FROM ΤύποςΣΜ");
   Direction = await conn.query("SELECT selections FROM \"Κλίση προς\"");
@@ -80,10 +113,8 @@ void main() async {
   Structure = await conn.query("SELECT selections FROM \"Δομή/Υφή\"");
   Color1 = await conn.query("SELECT selections FROM Χρώμα");
   Synthetic = await conn.query("SELECT selections FROM \"Συνδετικό υλικό\"");
-  Coating_material =
-      await conn.query("SELECT selections FROM \"Επίχρισμα(είδος)\"");
-  Coating_color =
-      await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\"");
+  Coating_material = await conn.query("SELECT selections FROM \"Επίχρισμα(είδος)\"");
+  Coating_color = await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\"");
   Floor = await conn.query("SELECT selections FROM Δάπεδο");
   Place = await conn.query("SELECT selections FROM Θέση");
   Datingfrom = await conn.query("SELECT selections FROM \"Χρονολόγηση απο\"");
@@ -95,18 +126,19 @@ void main() async {
   TombType = await conn.query("SELECT selections FROM \"Τύπος τάφου\"");
   Bones = await conn.query("SELECT selections FROM Οστά");
   Burial = await conn.query("SELECT selections FROM Ταφή");
+  Stone = await conn.query("SELECT selections FROM \"Επιλογές Λίθου\" ");
 
   //-------------------------------- CHECKBOX -------------------------------------------\\
 
-  material = await conn.query("SELECT selections FROM Υλικό");
-  prosm = await conn.query("SELECT selections FROM Προσμίξεις");
-  toixop = await conn.query("SELECT selections FROM Τοιχοποία");
-  basei = await conn.query("SELECT selections FROM Βάσει");
-  anask = await conn.query("SELECT selections FROM \"Ανασκαφ. τεχνική\"  ");
+  material = await conn.query("SELECT selections FROM Υλικό;");
+  prosm = await conn.query("SELECT selections FROM Προσμίξεις;");
+  toixop = await conn.query("SELECT selections FROM Τοιχοποιία;");
+  basei = await conn.query("SELECT selections FROM Βάσει;");
+  anask = await conn.query("SELECT selections FROM \"Ανασκαφ. τεχνική\";");
 
   runApp(const MyApp());
 
-  await conn.open();
+  //await conn.close();
 }
 
 class MyApp extends StatelessWidget {
@@ -122,6 +154,119 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+/* -------------- INSERT VARIABLES --------------- */
+
+//here we store all the dropdown values
+var arr = [
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  ''
+];
+
+//here we store all the checkbox values
+Map<String, bool> CheckBox1Value = {};
+Map<String, bool> CheckBox2Value = {};
+Map<String, bool> CheckBox3Value = {};
+Map<String, bool> CheckBox4Value = {};
+Map<String, bool> CheckBox5Value = {};
+Map<String, bool> CheckBox6Value = {};
+
+
+//here we store all the textField values
+var arr2 = [
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  ''
+];
+
+var radioarr = [
+  0,
+  0,
+  0,
+  0,
+  0,
+];
 
 /* -------------- SM --------------- */
 final itemkey = GlobalKey();
@@ -260,35 +405,35 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _widgetOptions = <Widget>[
     SingleChildScrollView(
-        //------------------------- SM -------------------------
+        //------------------------- SM -------------------------//
         child: Column(children: [
       Container(key: itemTop1, child: TextWidget("Δελτίο ΣΜ", 0)),
-      InputText("ΣΜ", 4, 0),
-      InputText("Ταυτότητα", 100, 1),
+      InputText("ΣΜ", 4, 0, 0, 0, ""),
+      InputText("Ταυτότητα", 100, 1, 1, 0, ""),
       Container(
           key: itemkey, child: TextWidget("Τύπος Στρωματολογικής Μονάδας", 1)),
       DropDown(),
-      InputText("Έτος", 4, 0),
+      InputText("Έτος", 4, 0, 2, 0, ""),
       TextWidget("Κλίση προς", 1),
       DropDown2(),
-      InputText("Ανώτ. Υ", 15, 0),
-      InputText("Κατώτ. Υ", 15, 0),
+      InputText("Ανώτ. Υ", 15, 0, 3, 0, ""),
+      InputText("Κατώτ. Υ", 15, 0, 4, 0, ""),
       Container(key: itemkey2, child: TextWidget("Συντεταγμένες", 1)),
-      InputText("Β", 15, 0),
-      InputText("Ν", 15, 0),
-      InputText("Α", 15, 0),
-      InputText("Δ", 15, 0),
-      InputText("Αντίστοιχη με", 33, 0),
-      InputText("Σύγχρονη με", 33, 0),
-      InputText("Κάτω/πριν από", 33, 0),
-      InputText("Πάνω/μετά από", 33, 0),
+      InputText("Β", 15, 0, 5, 0, ""),
+      InputText("Ν", 15, 0, 6, 0, ""),
+      InputText("Α", 15, 0, 7, 0, ""),
+      InputText("Δ", 15, 0, 8, 0, ""),
+      InputText("Αντίστοιχη με", 33, 0, 9, 0, ""),
+      InputText("Σύγχρονη με", 33, 0, 10, 0, ""),
+      InputText("Κάτω/πριν από", 33, 0, 11, 0, ""),
+      InputText("Πάνω/μετά από", 33, 0, 12, 0, ""),
       Container(key: itemkey3, child: TextWidget("Διαστάσεις", 1)),
-      InputText("Μήκος", 16, 0),
-      InputText("Πλάτος", 16, 0),
-      InputText("Ύψος", 16, 0),
-      InputText("Διάμετρος", 16, 0),
-      InputText("Βάθος", 16, 0),
-      InputText("Πάχος", 16, 0),
+      InputText("Μήκος", 16, 0, 13, 0, ""),
+      InputText("Πλάτος", 16, 0, 14, 0, ""),
+      InputText("Ύψος", 16, 0, 15, 0, ""),
+      InputText("Διάμετρος", 16, 0, 16, 0, ""),
+      InputText("Βάθος", 16, 0, 17, 0, ""),
+      InputText("Πάχος", 16, 0, 18, 0, ""),
       Container(key: itemkey4, child: TextWidget("Κατηγορία/Τύπος", 1)),
       DropDown3(),
       Divider(
@@ -318,9 +463,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       Container(
           key: itemkey6, child: TextWidget("Υλικά/τεχνική κατασκευής", 1)),
       TextWidget("Έχει λίθο;", 1),
-      RadioButton(),
+      RadioButton(63),
       TextWidget("Έχει Πλίνθο;", 1),
-      RadioButton2(),
+      RadioButton2(64),
       Divider(
         thickness: 1,
         color: Colors.greenAccent[700],
@@ -343,22 +488,22 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         color: Colors.greenAccent[700],
       ),
       TextWidget("Έχει Κεραμοπλαστικό διάκοσμο;", 1),
-      RadioButton3(),
+      RadioButton3(65),
       TextWidget("Έχει Spolia;", 1),
-      RadioButton4(),
+      RadioButton4(66),
       TextWidget("Έχει Ξύλο;", 1),
-      RadioButton5(),
-      InputText("Μέγεθος Στοιχείων", 100, 1),
+      RadioButton5(67),
+      InputText("Μέγεθος Στοιχείων", 100, 1, 19, 0, ""),
       Container(child: TextWidget("Επιλογή Τοιχοποιίας", 1)),
       CheckBox3(),
-      InputText("Αριθμός σωζ. δομών", 4, 0),
+      InputText("Αριθμός σωζ. δομών", 4, 0, 20, 0, ""),
       TextWidget("Δάπεδο", 1),
       DropDown9(),
-      TextWidget("θέση", 1),
+      TextWidget("Θέση", 1),
       DropDown10(),
-      InputText("Περιγραφή/Ερμηνεία", 100, 1),
-      InputText("Χαρακτ. σε σχ. με ΣΜ ", 100, 1),
-      InputText("Σχέσεις με ΣΜ", 100, 1),
+      InputText("Περιγραφή/Ερμηνεία", 100, 1, 21, 0, ""),
+      InputText("Χαρακτ. σε σχ. με ΣΜ ", 100, 1, 22, 0, ""),
+      InputText("Σχέσεις με ΣΜ", 100, 1, 23, 0, ""),
       Container(key: itemkey7, child: TextWidget("Χρονολόγηση από", 1)),
       DropDown11(),
       TextWidget("Χρονολόγηση μέχρι", 1),
@@ -384,77 +529,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         color: Colors.greenAccent[700],
       ),
       CheckBox6(),
-      InputText("Κόσκινο Ποσοστό(%)", 5, 0),
-      InputText("Νεροκόσκινο Ποσοστό(%)", 5, 0),
-      InputText("Ποσότητα Κεραμικής", 50, 1),
-      InputText("Ημερολόγιο(σελ)", 5, 0),
-      InputText("Συντάκτης", 50, 1),
-      InputText("Ημερομηνία", 10, 1),
+      InputText("Κόσκινο Ποσοστό(%)", 5, 0, 24, 0, ""),
+      InputText("Νεροκόσκινο Ποσοστό(%)", 5, 0, 25, 0, ""),
+      InputText("Ποσότητα Κεραμικής", 50, 1, 26, 0, ""),
+      InputText("Ημερολόγιο(σελ)", 5, 0, 27, 0, ""),
+      InputText("Συντάκτης", 50, 1, 28, 0, ""),
+      //InputText("Ημερομηνία", 10, 0, 29),
+     DateSelection(),
       Container(
-          child: FloatButton(),
+          //child: FloatButton(),
           alignment: Alignment.bottomCenter,
           padding: EdgeInsets.all(10)),
     ])),
-    SingleChildScrollView(
-        //------------------------- SKELETOS -------------------------
-        child: Column(children: [
-      Container(key: itemTop2, child: TextWidget("Δελτίο Σκελετού", 0)),
-      Container(
-        key: itemkey9,
-        child: InputText("Έτος", 2, 0),
-      ),
-      InputText("ΣΜ Κοψίματος", 4, 0),
-      InputText("Τομέας", 4, 0),
-      InputText("Κατασκευή", 6, 1),
-      InputText("Ενότητα", 7, 1),
-      InputText("Σύνολο", 100, 1),
-      InputText("Φάση", 100, 1),
-      InputText("Ταυτότητα", 100, 1),
-      InputText("Κάτω/Πριν από", 7, 0),
-      InputText("Πάνω/Μετά από", 7, 0),
-      TextWidget("Τύπος Ταφής", 1),
-      DropDown15(),
-      TextWidget("Τύπος Τάφου", 1),
-      DropDown16(),
-      Divider(
-        thickness: 1,
-        color: Colors.greenAccent[700],
-      ),
-      Container(key: itemkey10, child: TextWidget("Συντεταγμένες", 1)),
-      InputText("Β", 15, 0),
-      InputText("Ν", 15, 0),
-      InputText("Α", 15, 0),
-      InputText("Δ", 15, 0),
-      InputText("Ανώτ. Υ κραν.", 15, 0),
-      InputText("Κατώτ. Υ κραν.", 15, 0),
-      Container(key: itemkey11, child: TextWidget("Διαστάσεις", 1)),
-      InputText("Μήκος", 16, 0),
-      InputText("Πλάτος", 16, 0),
-      InputText("Βάθος", 16, 0),
-      TextWidget("Οστά", 1),
-      DropDown17(),
-      TextWidget("Ταφή", 1),
-      DropDown18(),
-      InputText("Προσανατολισμός", 50, 1),
-      Container(key: itemkey12, child: TextWidget("Ανατομία Σώματος", 1)),
-      InputText("Γενική στάση σώματος", 50, 1),
-      InputText("Κεφάλι", 50, 1),
-      InputText("Κορμός", 50, 1),
-      InputText("Δεξί χέρι", 50, 1),
-      InputText("Αριστερό χέρι", 50, 1),
-      InputText("Δεξί πόδι", 50, 1),
-      InputText("Αριστερό πόδι", 50, 1),
-      InputText("Περιγραφή/Σχόλια", 50, 1),
-      InputText("Y. σκελετού κατά χώραν", 10, 0),
-      InputText("Μήκ. μηριαίου οστού", 10, 0),
-      InputText("Συνευρήματα (με Α/Α)", 50, 1),
-      InputText("Ανασκ. τεχνική", 50, 1),
-      InputText("Συνθήκες", 50, 1),
-      Container(
-          child: FloatButton(),
-          alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.all(10)),
-    ])),
+    
   ];
 
   void _onItemTapped(int index) {
@@ -636,19 +723,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white70,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.area_chart), label: 'ΣΜ'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.accessibility),
-            label: 'Σκελετός',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green,
-        onTap: _onItemTapped,
-      ),
+      bottomNavigationBar: Container(
+        color: Colors.green[100],
+        padding: EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [FloatButton2(),FloatButton()],
+        )
+      )
     );
   }
 }

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'FloatingActionButton5Widget.dart';
+import 'FloatingActionButton6Widget.dart';
 import 'main.dart';
 
 String dropdownvalue = '';
@@ -68,6 +70,7 @@ class DropDownState extends State<DropDown18> {
             onChanged: (String? newValue) {
               setState(() {
                 dropdownvalue = newValue!;
+                 arr[17] = dropdownvalue;
               });
             },
             iconSize: 27,

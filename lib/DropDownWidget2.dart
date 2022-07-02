@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'FloatingActionButton5Widget.dart';
 import 'main.dart';
 
 String dropdownvalue = '';
@@ -36,7 +37,7 @@ class DropDownState extends State<DropDown2> {
     return Container(
         padding: EdgeInsets.all(5),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(30),
             color: Colors.greenAccent[400]),
         child: DropdownButton(
           dropdownColor: Colors.greenAccent[400],
@@ -53,6 +54,7 @@ class DropDownState extends State<DropDown2> {
           onChanged: (String? newValue) {
             setState(() {
               dropdownvalue = newValue!;
+              arr[1] = dropdownvalue;
             });
           },
           iconSize: 27,

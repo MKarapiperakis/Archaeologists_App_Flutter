@@ -1,9 +1,22 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_initializing_formals
 
+import 'dart:developer';
+
+import 'package:application/DropDownWidget19.dart';
 import 'package:flutter/material.dart';
 
+import 'TextWidget.dart';
+import 'main.dart';
+
+int counter = 0;
 class RadioButton extends StatefulWidget {
-  const RadioButton();
+int counter2 = 0;
+
+
+   RadioButton(counter2){
+      this.counter2 = counter2;
+      counter = counter2;
+  }
 
   @override
   State<StatefulWidget> createState() => _MyWidgetState();
@@ -56,6 +69,7 @@ class _MyWidgetState extends State<RadioButton> {
                 onChanged: (value) {
                   setState(() {
                     _value = value;
+                    radioarr[0] = _value;
                     flag = true;
                   });
                 },
@@ -75,6 +89,8 @@ class _MyWidgetState extends State<RadioButton> {
                 onChanged: (value) {
                   setState(() {
                     _value = value;
+                    radioarr[0] = _value;
+                    arr2[63] = "";
                     flag = false;
                   });
                 },
@@ -92,6 +108,9 @@ class _MyWidgetState extends State<RadioButton> {
                     keyboardType: TextInputType.text,
                     maxLines: null,
                     textAlign: TextAlign.left,
+                    onChanged: (text) {         //table of inputs, position 63
+                    arr2[counter] = '$text';
+                    },
                     autocorrect: true,
                     style: TextStyle(
                         fontSize: 20, color: Color.fromARGB(255, 43, 36, 36)),
@@ -102,57 +121,12 @@ class _MyWidgetState extends State<RadioButton> {
                           fontSize: 20, color: Colors.blueAccent[400]),
                     ),
                   )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .center, //Center Row contents horizontally,
-                children: [
-                  Text("Ασβεστόλιθος",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15)),
-                  Checkbox(
-                    checkColor: Colors.white,
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: asbestolithos,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        asbestolithos = value!;
-                      });
-                    },
-                  ),
-                  Text("Μάρμαρο",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15)),
-                  Checkbox(
-                    checkColor: Colors.white,
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: marmaro,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        marmaro = value!;
-                      });
-                    },
-                  ),
-                  Text("Αμμούδα",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15)),
-                  Checkbox(
-                    checkColor: Colors.white,
-                    fillColor: MaterialStateProperty.resolveWith(getColor),
-                    value: ammouda,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        ammouda = value!;
-                      });
-                    },
-                  ),
-                ],
-              )
+              TextWidget("Επιλογές Λίθου", 1),
+              DropDown19(),
+              Divider(
+                thickness: 1,
+                color: Colors.greenAccent[700],
+              ),
             ])
         ]));
   }

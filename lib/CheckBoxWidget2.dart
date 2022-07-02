@@ -19,7 +19,7 @@ class CheckBox2 extends StatefulWidget {
         items.add(
           value.replaceAll('[', '').replaceAll(']', '').replaceAll('  ', ''),
         );
-        items2["value$i"] = false;
+        items2[items.elementAt(i)] = false;
       }
       dropdownflag = true;
     }
@@ -28,8 +28,6 @@ class CheckBox2 extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<CheckBox2> {
-
-
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -58,10 +56,11 @@ class _MyWidgetState extends State<CheckBox2> {
             Checkbox(
               checkColor: Colors.white,
               fillColor: MaterialStateProperty.resolveWith(getColor),
-              value: (items2["value$i"]),
+              value: (items2[items.elementAt(i)]),
               onChanged: (bool? value) {
                 setState(() {
-                  items2["value$i"] = value!;
+                  items2[items.elementAt(i)] = value!;
+                  CheckBox2Value = items2;
                 });
               },
             ),

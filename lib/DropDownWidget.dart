@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
+import 'package:application/FloatingActionButton5Widget.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 
@@ -20,6 +21,7 @@ class DropDown extends StatefulWidget {
       }
       dropdownflag = true;
     }
+
     return DropDownState();
   }
 }
@@ -49,6 +51,8 @@ class DropDownState extends State<DropDown> {
           onChanged: (String? newValue) {
             setState(() {
               dropdownvalue = newValue!;
+
+              arr[0] = dropdownvalue;
             });
           },
           iconSize: 27,

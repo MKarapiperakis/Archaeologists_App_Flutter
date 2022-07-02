@@ -2,8 +2,17 @@
 
 import 'package:flutter/material.dart';
 
+import 'main.dart';
+
+int counter = 0;
 class RadioButton4 extends StatefulWidget {
-  const RadioButton4();
+  int counter2 = 0;
+
+
+   RadioButton4(counter2){
+      this.counter2 = counter2;
+      counter = counter2;
+  }
 
   @override
   State<StatefulWidget> createState() => _MyWidgetState();
@@ -13,9 +22,6 @@ var items = ["Ναι", "Οχι"];
 var _value;
 var flag = false;
 
-bool asbestolithos = false;
-bool marmaro = false;
-bool ammouda = false;
 
 Color getColor(Set<MaterialState> states) {
   const Set<MaterialState> interactiveStates = <MaterialState>{
@@ -56,6 +62,7 @@ class _MyWidgetState extends State<RadioButton4> {
                 onChanged: (value) {
                   setState(() {
                     _value = value;
+                    radioarr[3] = _value;
                     flag = true;
                   });
                 },
@@ -75,6 +82,8 @@ class _MyWidgetState extends State<RadioButton4> {
                 onChanged: (value) {
                   setState(() {
                     _value = value;
+                    radioarr[3] = _value;
+                    arr2[66] = "";
                     flag = false;
                   });
                 },
@@ -92,6 +101,10 @@ class _MyWidgetState extends State<RadioButton4> {
                     keyboardType: TextInputType.text,
                     maxLines: null,
                     textAlign: TextAlign.left,
+                     onChanged: (text) {
+                      //table of inputs, position 66
+                      arr2[counter] = '$text';
+                    },
                     autocorrect: true,
                     style: TextStyle(
                         fontSize: 20, color: Color.fromARGB(255, 43, 36, 36)),

@@ -1,10 +1,14 @@
 // ignore_for_file: prefer_const_constructors, no_logic_in_create_state
 
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
+import 'FloatingActionButton5Widget.dart';
 import 'main.dart';
 
 String dropdownvalue = '';
 bool dropdownflag = false;
+
+List<List<dynamic>>? tmpid;
 
 var items = [
   '',
@@ -27,11 +31,21 @@ class DropDown8 extends StatefulWidget {
 }
 
 class DropDownState extends State<DropDown8> {
-  // var items = [
-  //   'Υπόλευκο',
-  //   'Ερυθρωπό',
-  //   'Κιτρινωπό',
-  // ];
+  bool _canShowButton = true;
+  void hideWidget() {
+    setState(() {
+      _canShowButton = !_canShowButton;
+    });
+  }
+
+  final conn = PostgreSQLConnection(
+      'hilon.dit.uop.gr', //host
+      5432, //port
+      'db3u04', //database name
+      username: 'db3u04',
+      password: 'FmAF7P2A');
+
+  String insert = "";
 
   bool flag = false;
   bool option = false;
@@ -66,7 +80,6 @@ class DropDownState extends State<DropDown8> {
                 fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
           )),
-      if (flag == false)
         Container(
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
@@ -87,6 +100,7 @@ class DropDownState extends State<DropDown8> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownvalue = newValue!;
+                  arr[7] = dropdownvalue;
                 });
               },
               iconSize: 27,
@@ -99,44 +113,80 @@ class DropDownState extends State<DropDown8> {
       ),
       Row(children: [
         Padding(padding: EdgeInsets.all(5)),
-        Text(
-          "Άλλο",
-          style: TextStyle(
-              color: Colors.blue, fontWeight: FontWeight.w600, fontSize: 20),
-        ),
-        Checkbox(
-          checkColor: Colors.white,
-          fillColor: MaterialStateProperty.resolveWith(getColor),
-          value: option,
-          onChanged: (bool? value) {
-            setState(() {
-              option = value!;
-              if (flag == true)
-                flag = false;
-              else
-                flag = true;
-            });
-          },
-        ),
+        !_canShowButton
+            ? const SizedBox.shrink()
+            : FloatingActionButton.extended(
+                icon: Icon(Icons.add),
+                label: Text("Άλλο"),
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                onPressed: () async => {
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false, // user must tap button!
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title:
+                                const Text('Προσθήκη νέου χρώματος'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: <Widget>[
+                                  TextField(
+                                      textAlign: TextAlign.left,
+                                      autocorrect: true,
+                                      keyboardType: TextInputType.text,
+                                      onChanged: (text) {
+                                        insert = text;
+                                      })
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Ακύρωση'),
+                                onPressed: () async {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: const Text('Προσθήκη'),
+                                onPressed: () async {
+                                  await conn.open();
+
+                                  tmpid = await conn.query("SELECT id FROM \"Συνδετικό υλικό\" WHERE selections='${insert}'");
+
+                                  if (tmpid!.isEmpty)
+                                  {
+                                    await conn.query(
+                                      "INSERT INTO \"Επίχρισμα (χρώμα)\" (selections) VALUES ('${insert}');");
+                                  }
+                                  items = [
+                                    '',
+                                  ];
+
+                                  Synthetic = await conn.query(
+                                      "SELECT selections FROM \"Επίχρισμα (χρώμα)\"");
+
+                                  for (int i = 0; i < Synthetic!.length; i++) {
+                                    String value = Synthetic![i].toString();
+                                    items.add(
+                                      value
+                                          .replaceAll('[', '')
+                                          .replaceAll(']', '')
+                                          .replaceAll('  ', ''),
+                                    );
+                                  }
+                                  flag = true;
+                                  hideWidget();
+                                  Navigator.of(context).pop();
+                                },
+                              )
+                            ],
+                          );
+                        },
+                      )
+                    })
       ]),
-      if (flag == true)
-        Container(
-          margin: EdgeInsets.all(10),
-          child: TextFormField(
-            maxLength: 20,
-            keyboardType: TextInputType.text,
-            textAlign: TextAlign.left,
-            autocorrect: true,
-            style:
-                TextStyle(fontSize: 20, color: Color.fromARGB(255, 43, 36, 36)),
-            decoration: InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: "Άλλη επιλογή",
-              labelStyle:
-                  TextStyle(fontSize: 20, color: Colors.blueAccent[400]),
-            ),
-          ),
-        )
     ]);
   }
 }
