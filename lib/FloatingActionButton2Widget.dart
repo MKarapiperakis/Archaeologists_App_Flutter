@@ -205,22 +205,38 @@ class _MyWidgetState extends State<FloatButton2> {
             query = query + " AND \"Ξύλο\" = '${arr2[67]}'",
 
           //dropdown queries
+          print(str[0]),
+          if(str[0] != "1")
           query = query + " AND ΤύποςΣΜid = ${str[0]}",
+          if(str[1] != "1")
           query = query + " AND \"Κλίση προςid\" = ${str[1]}",
+          if(str[2] != "1")
           query = query + " AND \"Κατηγορία/τύποςid\" = ${str[2]}",
+          if(str[3] != "1")
           query = query + " AND \"Δομή/Υφήid\" = ${str[3]}",
+          if(str[4] != "1")
           query = query + " AND \"Χρώμαid\" = ${str[4]}",
+          if(str[5] != "1")
           query = query + " AND \"Συνδετικό υλικόid\" = ${str[5]}",
+          if(str[6] != "1")
           query = query + " AND \"Επίχρισμα(είδος)id\" = ${str[6]}",
+          if(str[7] != "1")
           query = query + " AND \"Επίχρισμα (χρώμα)id\" = ${str[7]}",
+          if(str[8] != "1")
           query = query + " AND \"Δάπεδοid\" = ${str[8]}",
+          if(str[9] != "1")
           query = query + " AND \"Θέσηid\" = ${str[9]}",
+          if(str[10] != "1")
           query = query + " AND \"Χρονολόγηση αποid\" = ${str[10]}",
+          if(str[11] != "1")
           query = query + " AND \"Χρονολόγηση μέχριid\" = ${str[11]}",
+          if(str[12] != "1")
           query = query + " AND \"Συνθήκεςid\" = ${str[12]}",
+          if(str[13] != "1")
           query = query + " AND \"Πιθανότητα επιμίξεωνid\" = ${str[13]}",
+          if(str[14] != "1")
           query = query + " AND \"Επιλογές Λίθουid\" = ${str[14]}",
-
+          
           if (arr2[29].isNotEmpty)
             query =
                 query + " AND \"Ημερομηνία\" = NULLIF('${arr2[29]}','')::date",
