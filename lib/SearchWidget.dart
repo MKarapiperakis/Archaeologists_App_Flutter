@@ -260,13 +260,14 @@ class Search extends StatelessWidget {
                     value: item.header,
                     headerBuilder: (context, isExpanded) => ListTile(
                           title: Text(
-                            item.header,
+                            "${item.body.replaceAll("Κωδικός ΣΜ:", "")}     ${item.body2.replaceAll("Ημερομηνία:", "")}  ",
                             style: TextStyle(
-                              fontSize: 0,
+                              fontSize: 20,
                               color: Colors.blueAccent[400],
                               fontWeight: FontWeight.w400,
                             ),
                           ),
+                          
                         ),
                     body: Column(children: [
                       FloatingActionButton.extended(

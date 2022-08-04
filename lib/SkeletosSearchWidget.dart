@@ -130,9 +130,9 @@ class SkeletosSearch extends StatelessWidget {
                     value: item2.header2,
                     headerBuilder: (context, isExpanded) => ListTile(
                           title: Text(
-                            item2.header2,
+                            "${item2.body1.replaceAll("Ενότητα:", "")}    ${item2.body4.replaceAll("ΣΜ Κοψίματος:","")}",
                             style: TextStyle(
-                              fontSize: 0,
+                              fontSize: 20,
                               color: Colors.blueAccent[400],
                               fontWeight: FontWeight.w400,
                             ),
