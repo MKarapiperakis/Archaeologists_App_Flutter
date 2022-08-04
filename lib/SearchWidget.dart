@@ -23,8 +23,7 @@ List<List<dynamic>>? SkeletoiIDs;
 List<List<dynamic>>? idSynthetic;
 List<List<dynamic>>? idCoating_color;
 
-var radiobuttonsOptions = ['','','','',''];
-
+var radiobuttonsOptions = ['', '', '', '', ''];
 
 List<List<dynamic>>? TypeSelections;
 
@@ -44,10 +43,8 @@ class Item {
       required this.body4,
       this.isExpanded = false});
 }
-var tmpdropdownArr = [
-  '',
-  ''
-];
+
+var tmpdropdownArr = ['', ''];
 
 var dropdownArr = [
   '',
@@ -265,7 +262,7 @@ class Search extends StatelessWidget {
                           title: Text(
                             item.header,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 0,
                               color: Colors.blueAccent[400],
                               fontWeight: FontWeight.w400,
                             ),
@@ -273,6 +270,7 @@ class Search extends StatelessWidget {
                         ),
                     body: Column(children: [
                       FloatingActionButton.extended(
+                        heroTag: null,
                         //skeletoi parathyro
                         onPressed: () async {
                           if (conn.isClosed) {
@@ -309,52 +307,15 @@ class Search extends StatelessWidget {
                             TautothtaIDTemp.add(TautothtaID!);
                           }
 
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Colors.greenAccent[400],
-                                title: const Text(
-                                  'Εμφάνιση των Σκελετών αυτής της ΣΜ;',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                content: SingleChildScrollView(),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text(
-                                      'Όχι',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                    ),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('Ναι',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20)),
-                                    onPressed: () async {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SkeletosSearch(
-                                                    SMKopsimatosIDTemp,
-                                                    SkeletosID,
-                                                    EnothtaIDTemp,
-                                                    SyntakthsIDTemp,
-                                                    TautothtaIDTemp)),
-                                      );
-                                    },
-                                  )
-                                ],
-                              );
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SkeletosSearch(
+                                    SMKopsimatosIDTemp,
+                                    SkeletosID,
+                                    EnothtaIDTemp,
+                                    SyntakthsIDTemp,
+                                    TautothtaIDTemp)),
                           );
                         },
                         icon: Icon(Icons.remove_red_eye),
@@ -366,58 +327,18 @@ class Search extends StatelessWidget {
                       ),
                       Container(
                         child: FloatingActionButton.extended(
+                          heroTag: null,
                           //προσθήκη Σκελετού
                           onPressed: () async {
                             if (conn.isClosed) {
                               await conn.open();
                             }
-
-                            showDialog(
-                              context: context,
-                              barrierDismissible:
-                                  false, // user must tap button!
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: Colors.greenAccent[400],
-                                  title: const Text(
-                                    'Προσθήκη νέου Σκελετού σε αυτή τη ΣΜ;',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 19,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                  content: SingleChildScrollView(),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: const Text(
-                                        'Όχι',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20),
-                                      ),
-                                      onPressed: () async {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    TextButton(
-                                      child: const Text('Ναι',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20)),
-                                      onPressed: () async {
-                                        var id = item.header;
-
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Skeletos(id),
-                                            ));
-                                      },
-                                    )
-                                  ],
-                                );
-                              },
-                            );
+                            var id = item.header;
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Skeletos(id),
+                                ));
                           },
                           icon: Icon(Icons.add),
                           label: Text("Προσθήκη Σκελετού"),
@@ -450,6 +371,7 @@ class Search extends StatelessWidget {
                         style: TextStyle(fontSize: 20, color: Colors.blue),
                       )),
                       FloatingActionButton.extended(
+                        heroTag: null,
                         onPressed: () async {
                           if (conn.isClosed) {
                             await conn.open();
@@ -667,29 +589,26 @@ class Search extends StatelessWidget {
                               .replaceAll("]", "")
                               .replaceAll("null", "");
 
-
-                          idSynthetic = await conn.query("SELECT id FROM \"Συνδετικό υλικό\"");
-
+                          idSynthetic = await conn
+                              .query("SELECT id FROM \"Συνδετικό υλικό\"");
 
                           tmpdropdownArr[0] = (await conn.query(
-                                "Select \"Συνδετικό υλικόid\" from ΣΜ where id = ${item.header};"))  
+                                  "Select \"Συνδετικό υλικόid\" from ΣΜ where id = ${item.header};"))
                               .toString()
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-                            
 
-                          for (int i = 0 ; i<idSynthetic!.length ; i++)
-                          {
-                            if (idSynthetic![i].toString()
-                              .replaceAll("[", "")
-                              .replaceAll("]", "")
-                              .replaceAll("null", "") == tmpdropdownArr[0])
-                            {
+                          for (int i = 0; i < idSynthetic!.length; i++) {
+                            if (idSynthetic![i]
+                                    .toString()
+                                    .replaceAll("[", "")
+                                    .replaceAll("]", "")
+                                    .replaceAll("null", "") ==
+                                tmpdropdownArr[0]) {
                               dropdownArr[5] = i.toString();
                             }
                           }
-                         
 
                           dropdownArr[6] = (await conn.query(
                                   "Select \"Επίχρισμα(είδος)id\" from ΣΜ where id = ${item.header};"))
@@ -698,29 +617,31 @@ class Search extends StatelessWidget {
                               .replaceAll("]", "")
                               .replaceAll("null", "");
 
-
-                          idCoating_color = await conn.query("SELECT id FROM \"Επίχρισμα (χρώμα)\"");
+                          idCoating_color = await conn
+                              .query("SELECT id FROM \"Επίχρισμα (χρώμα)\"");
 
                           tmpdropdownArr[1] = (await conn.query(
-                                "Select \"Επίχρισμα (χρώμα)id\" from ΣΜ where id = ${item.header};"))  
+                                  "Select \"Επίχρισμα (χρώμα)id\" from ΣΜ where id = ${item.header};"))
                               .toString()
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
 
-                          for (int i = 0 ; i<idCoating_color!.length ; i++)
-                          {
-                            if (idCoating_color![i].toString()
-                              .replaceAll("[", "")
-                              .replaceAll("]", "")
-                              .replaceAll("null", "") == tmpdropdownArr[1])
-                            {
+                          for (int i = 0; i < idCoating_color!.length; i++) {
+                            if (idCoating_color![i]
+                                    .toString()
+                                    .replaceAll("[", "")
+                                    .replaceAll("]", "")
+                                    .replaceAll("null", "") ==
+                                tmpdropdownArr[1]) {
                               dropdownArr[7] = i.toString();
                             }
                           }
-                          
-                          Synthetic = await conn.query("SELECT selections FROM \"Συνδετικό υλικό\"");  //to update the items stored when adding a new value in main form
-                          Coating_color = await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\""); //to update the items stored when adding a new value in main form
+
+                          Synthetic = await conn.query(
+                              "SELECT selections FROM \"Συνδετικό υλικό\""); //to update the items stored when adding a new value in main form
+                          Coating_color = await conn.query(
+                              "SELECT selections FROM \"Επίχρισμα (χρώμα)\""); //to update the items stored when adding a new value in main form
 
                           dropdownArr[8] = (await conn.query(
                                   "Select \"Δάπεδοid\" from ΣΜ where id = ${item.header};"))
@@ -758,13 +679,13 @@ class Search extends StatelessWidget {
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-                           dropdownArr[14] = (await conn.query(
+                          dropdownArr[14] = (await conn.query(
                                   "Select \"Επιλογές Λίθουid\" from ΣΜ where id = ${item.header};"))
                               .toString()
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-                            
+
                           print(dropdownArr[5]);
 
                           checkboxValues[0] = (await conn.query(
@@ -1046,7 +967,6 @@ class Search extends StatelessWidget {
                           // print(CheckB4);
                           // print(CheckB5);
 
-
                           // ---------------------------------------- end of checkboxes
                           radiobuttonsOptions[0] = (await conn.query(
                                   "Select \"Λίθος Κείμενο\" from ΣΜ where id = ${item.header};"))
@@ -1060,7 +980,7 @@ class Search extends StatelessWidget {
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-                           radiobuttonsOptions[2] = (await conn.query(
+                          radiobuttonsOptions[2] = (await conn.query(
                                   "Select \"Κεραμοπλαστικός διάοσμος\" from ΣΜ where id = ${item.header};"))
                               .toString()
                               .replaceAll("[", "")
@@ -1078,10 +998,6 @@ class Search extends StatelessWidget {
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-                            
-                          
-
-
 
                           String date2 = arr2_2[29];
                           if (date2.length > 9) {
@@ -1090,48 +1006,10 @@ class Search extends StatelessWidget {
                                 date2.length -
                                     14); //we remove the timezone from the date
                           }
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Colors.greenAccent[400],
-                                title: const Text(
-                                  'Επιθυμείτε να επεξεργαστείτε αυτή τη ΣΜ;',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                content: SingleChildScrollView(),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text(
-                                      'Όχι',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                    ),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('Ναι',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20)),
-                                    onPressed: () async {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditSM(item.header)));
-                                      //print(item.header);
-                                    },
-                                  )
-                                ],
-                              );
-                            },
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditSM(item.header)));
                         },
                         icon: Icon(Icons.edit),
                         label: Text("Επεξεργασία"),
@@ -1144,6 +1022,7 @@ class Search extends StatelessWidget {
                       ),
                       Container(
                         child: FloatingActionButton.extended(
+                          heroTag: null,
                           onPressed: () async {
                             showDialog(
                               context: context,
@@ -1214,8 +1093,7 @@ class Search extends StatelessWidget {
                                         await conn.query(
                                             "DELETE FROM ΣΜ WHERE id=$id;"); //deleting the ΣΜ
 
-                                        Navigator.of(context)
-                                            .pop(); //close the dialog window
+                                        
                                         Navigator.of(context)
                                             .pop(); //close the search page
                                         Navigator.of(context)

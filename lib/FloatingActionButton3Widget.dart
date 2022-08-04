@@ -33,6 +33,7 @@ class FloatButton3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: FloatingActionButton.extended(
+          heroTag: "btn9",
       icon: Icon(Icons.save),
       label: Text("Εισαγωγή"),
       backgroundColor: Colors.green,

@@ -33,6 +33,7 @@ class _MyWidgetState extends State<FloatButton4> {
     
     return Container(
       child: FloatingActionButton.extended(
+        heroTag: "btn8",
         icon: Icon(Icons.edit),
         label: Text("Επεξεργασία"),
         backgroundColor: Colors.green[500],

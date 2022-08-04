@@ -107,6 +107,7 @@ class DropDownState extends State<DropDown6> {
         !_canShowButton
             ? const SizedBox.shrink()
             : FloatingActionButton.extended(
+              heroTag: "btn12",
                 icon: Icon(Icons.add),
                 label: Text("Άλλο"),
                 backgroundColor: Colors.green,

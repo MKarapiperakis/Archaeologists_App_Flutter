@@ -43,6 +43,7 @@ class _MyWidgetState extends State<FloatButton2> {
 
     return Container(
       child: FloatingActionButton.extended(
+                 heroTag: "btn10",
         icon: Icon(Icons.search),
         label: Text("Αναζήτηση"),
         backgroundColor: Colors.green,
@@ -276,46 +277,12 @@ class _MyWidgetState extends State<FloatButton2> {
           // print(SMListTemp2),
           // print(HmeromhniaTemp),
           // print(SMCodeTemp),
-          showDialog(
-            context: context,
-            barrierDismissible: false, // user must tap button!
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.greenAccent[400],
-                title: const Text(
-                  'Είστε σίγουροι για την αναζήτηση σας;',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400),
-                ),
-                content: SingleChildScrollView(),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text(
-                      'Όχι',
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    onPressed: () async {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('Ναι',
-                        style: TextStyle(color: Colors.white, fontSize: 20)),
-                    onPressed: () async {
-                      Navigator.push(
+          Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => Search(SMListTemp, SMCodeTemp,
                                 TautothtaTemp, HmeromhniaTemp, SyntakthsTemp)),
-                      );
-                    },
-                  )
-                ],
-              );
-            },
-          )
+                      ),
         },
       ),
     );

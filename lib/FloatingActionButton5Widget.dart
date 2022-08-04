@@ -79,6 +79,7 @@ class _MyWidgetState extends State<FloatButton5> {
   Widget build(BuildContext context) {
     return Container(
         child: FloatingActionButton.extended(
+          heroTag: "btn7",
             icon: Icon(Icons.refresh),
             label: Text("Ενημέρωση"),
             backgroundColor: Colors.green[500],
@@ -361,8 +362,7 @@ class _MyWidgetState extends State<FloatButton5> {
                   Synthetic = await conn.query("SELECT selections FROM \"Συνδετικό υλικό\""),
                   Coating_color = await conn.query("SELECT selections FROM \"Επίχρισμα (χρώμα)\""),
 
-                  Navigator.of(context).pop(), //go back to the search
-                  Navigator.of(context).pop(), //close the prompt window
+                
                   Navigator.of(context).pop(),
                   Navigator.of(context).pop()
                 }));

@@ -132,7 +132,7 @@ class SkeletosSearch extends StatelessWidget {
                           title: Text(
                             item2.header2,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 0,
                               color: Colors.blueAccent[400],
                               fontWeight: FontWeight.w400,
                             ),
@@ -160,6 +160,7 @@ class SkeletosSearch extends StatelessWidget {
                         style: TextStyle(fontSize: 20, color: Colors.blue),
                       )),
                       FloatingActionButton.extended(
+                        heroTag: null,
                         onPressed: () async {
                           if (conn.isClosed) {
                             await conn.open();
@@ -387,49 +388,12 @@ class SkeletosSearch extends StatelessWidget {
                               .replaceAll("[", "")
                               .replaceAll("]", "")
                               .replaceAll("null", "");
-  
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false, // user must tap button!
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                backgroundColor: Colors.greenAccent[400],
-                                title: const Text(
-                                  'Επιθυμείτε να επεξεργαστείτε αυτό το Σκελετό;',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                                content: SingleChildScrollView(),
-                                actions: <Widget>[
-                                  TextButton(
-                                    child: const Text(
-                                      'Όχι',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
-                                    ),
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('Ναι',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 20)),
-                                    onPressed: () async {
-                                      //print(item2.header2);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditSkeletos(item2.header2)));
-                                    },
-                                  )
-                                ],
-                              );
-                            },
-                          );
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditSkeletos(item2.header2)));
                         },
                         icon: Icon(Icons.edit),
                         label: Text("Επεξεργασία"),
@@ -441,6 +405,7 @@ class SkeletosSearch extends StatelessWidget {
                       ),
                       Container(
                         child: FloatingActionButton.extended(
+                          heroTag: "btn4",
                           onPressed: () async {
                             showDialog(
                               context: context,
@@ -487,8 +452,7 @@ class SkeletosSearch extends StatelessWidget {
                                         await conn.query(
                                             "DELETE FROM Σκελετός WHERE id=$id"); //deleting the ΣΜ's Σκελετοί
 
-                                        Navigator.of(context)
-                                            .pop(); //close the dialog window
+                                     
                                         Navigator.of(context)
                                             .pop(); //go back to ΣΜ Search
                                         Navigator.of(context)

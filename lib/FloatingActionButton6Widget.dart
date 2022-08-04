@@ -36,6 +36,7 @@ class FloatButton6 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: FloatingActionButton.extended(
+          heroTag: "btn6",
       icon: Icon(Icons.refresh),
       label: Text("Ενημέρωση"),
       backgroundColor: Colors.green,
@@ -86,8 +87,8 @@ class FloatButton6 extends StatelessWidget {
         await conn.query(
             "UPDATE Σκελετός SET \"Έτος\"=NULLIF('${arr2_2_2[0]}','')::integer, \"ΣΜ κοψίματος\"=NULLIF('${arr2_2_2[1]}','')::integer, \"Τομέας\"=NULLIF('${arr2_2_2[2]}','')::integer, \"Κατασκευή\"='${arr2_2_2[3]}', \"Ενότητα\"='${arr2_2_2[4]}', \"Σύνολο\"='${arr2_2_2[5]}', \"Φάση\"='${arr2_2_2[6]}', \"Ταυτότητα\"='${arr2_2_2[7]}', \"Κάτω/πριν από\"='${arr2_2_2[8]}', \"Πάνω/μετά από\"='${arr2_2_2[9]}', \"Β\"=NULLIF('${arr2_2_2[10]}','')::integer, \"Ν\"=NULLIF('${arr2_2_2[11]}','')::integer, \"Α\"=NULLIF('${arr2_2_2[12]}','')::integer, \"Δ\"=NULLIF('${arr2_2_2[13]}','')::integer, \"Ανωτ. Υ κραν\"=NULLIF('${arr2_2_2[14]}','')::integer, \"Κατώτ Υ. κραν.\"=NULLIF('${arr2_2_2[15]}','')::integer, \"Μήκος\"=NULLIF('${arr2_2_2[16]}','')::real, \"Πλάτος\"=NULLIF('${arr2_2_2[17]}','')::real, \"Βάθος\"=NULLIF('${arr2_2_2[18]}','')::real, \"Προσανατολισμός\"='${arr2_2_2[19]}', \"Γενική στάση σώματος\"='${arr2_2_2[20]}', \"Κεφάλι\"='${arr2_2_2[21]}', \"Κορμός\"='${arr2_2_2[22]}', \"Δεξί χέρι\"='${arr2_2_2[23]}', \"Αριστερό χέρι\"='${arr2_2_2[24]}', \"Δεξί πόδι\"='${arr2_2_2[25]}', \"Αριστερό πόδι\"='${arr2_2_2[26]}', \"Περιγραφή/σχόλια\"='${arr2_2_2[27]}', \"Υ. σκελετού κατά χώραν\"=NULLIF('${arr2_2_2[28]}','')::integer, \"Μήκ. μηριαίου οστού\"=NULLIF('${arr2_2_2[29]}','')::integer, \"Συνευρήματα\"='${arr2_2_2[30]}', \"Ανασκ. τεχνική\"='${arr2_2_2[31]}', \"Συνθήκες\"='${arr2_2_2[32]}', \"Τύπος Ταφήςid\"=${str[0]}, \"Τύπος τάφουid\"=${str[1]}, \"Οστάid\"=${str[2]}, \"Ταφήid\"=${str[3]} WHERE id=$Skeletosidstr"),
 
-        Navigator.of(context).pop(), //go back to Skeletons' list
-        Navigator.of(context).pop(), //close the dialog window
+        
+        
         Navigator.of(context).pop(), //go back to SM's list
         Navigator.of(context).pop(), //close the dialog window
       },
