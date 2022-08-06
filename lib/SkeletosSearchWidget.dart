@@ -98,12 +98,12 @@ class SkeletosSearch extends StatelessWidget {
                 .toString()
                 .replaceAll("[", "")
                 .replaceAll("]", ""),
-            body1:
-                "Ενότητα: ${EnothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
+           body1:
+                "Ενότητα: ${EnothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").isEmpty ? EnothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("", "Χωρίς τιμή") : EnothtaID![i].toString().replaceAll("[", "").replaceAll("]", "")} ",
             body2:
-                "Περιγραφή: ${SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
+                "Περιγραφή: ${SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").isEmpty ? SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("", "Χωρίς τιμή") : SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "")} ",
             body3:
-                "Ταυτότητα: ${TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
+                "Ταυτότητα: ${TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").isEmpty ? TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("", "Κενή") : TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "")} ",
             body4:
                 "ΣΜ Κοψίματος: ${SMKopsimatosID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} "),
       );
@@ -130,10 +130,10 @@ class SkeletosSearch extends StatelessWidget {
                     value: item2.header2,
                     headerBuilder: (context, isExpanded) => ListTile(
                           title: Text(
-                            "${item2.body1.replaceAll("Ενότητα:", "")}    ${item2.body4.replaceAll("ΣΜ Κοψίματος:","")}",
+                            "${item2.body4}",
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.blueAccent[400],
+                             color: Colors.orangeAccent[400],
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -405,7 +405,7 @@ class SkeletosSearch extends StatelessWidget {
                       ),
                       Container(
                         child: FloatingActionButton.extended(
-                          heroTag: "btn4",
+                          heroTag: null,
                           onPressed: () async {
                             showDialog(
                               context: context,

@@ -502,7 +502,7 @@ class _EditSMState extends State<EditSM> {
 
                 label: Text(''), // <-- Text
               ),
-              Text('Εφαρμογή Αρχαιολόγων'),
+              Text('  Επεξεργασία ΣΜ'),
             ]),
             backgroundColor: Colors.greenAccent[400],
             centerTitle: false),

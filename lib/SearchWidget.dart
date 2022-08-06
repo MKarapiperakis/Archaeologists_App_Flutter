@@ -218,11 +218,11 @@ class Search extends StatelessWidget {
             body:
                 "Κωδικός ΣΜ: ${SMID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
             body2:
-                "Ημερομηνία: ${date.toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
+                "Ημερομηνία: ${date.toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Κενή ημερ. ")} ",
             body3:
-                "Συντάκτης: ${SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} ",
+                "Συντάκτης: ${SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").isEmpty ? SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("", "Κενός Συντάκτης") : SyntakthsID![i].toString().replaceAll("[", "").replaceAll("]", "")} ",
             body4:
-                "Ταυτότητα: ${TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("null", "Χωρίς τιμή")} "),
+                "Ταυτότητα: ${TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").isEmpty ? TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "").replaceAll("", "Χωρίς τιμή") : TautothtaID![i].toString().replaceAll("[", "").replaceAll("]", "")} "),
       );
     }
   }
@@ -259,13 +259,15 @@ class Search extends StatelessWidget {
                     canTapOnHeader: true,
                     value: item.header,
                     headerBuilder: (context, isExpanded) => ListTile(
-                          title: Text(
-                            "${item.body.replaceAll("Κωδικός ΣΜ:", "")}     ${item.body2.replaceAll("Ημερομηνία:", "")}  ",
+                          title: Text(                        
+                            "${item.body2.replaceAll("Ημερομηνία:", "")}         ${item.body.replaceAll("Κωδικός", "")}",
                             style: TextStyle(
                               fontSize: 20,
-                              color: Colors.blueAccent[400],
+                              color: Colors.orangeAccent[400],
                               fontWeight: FontWeight.w400,
+                              
                             ),
+                            textAlign: TextAlign.left,
                           ),
                           
                         ),
